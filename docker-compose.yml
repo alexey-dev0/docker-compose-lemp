@@ -9,7 +9,8 @@ services:
             - "${HOST_MACHINE_SECURE_HOST_PORT}:443"
         volumes:
             - ./www:/var/www/html
-            - ./config/vhosts/:/etc/nginx/sites-enabled
+            - ./config/nginx/nginx.conf:/etc/nginx/nginx.conf
+            - ./config/nginx/sites:/etc/nginx/sites.d
             - ./logs/nginx:/var/log/nginx
 
     php:
@@ -17,8 +18,9 @@ services:
         restart: 'always'
         volumes:
             - ./www:/var/www/html
-            - ./logs/tmp:/tmp
+            - ./logs/xdebug:/tmp
             - ./config/php/php.ini:/usr/local/etc/php/php.ini
+            - ./config/php/xdebug.ini:/usr/local/etc/php/conf.d/docker-php-ext-xdebug.ini
         ports:
             - "127.0.0.1:9000:9000"
         links:
